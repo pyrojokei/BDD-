@@ -23,18 +23,18 @@ public class MoneyTransferTest {
         var verificationCode = DataHelper.getVerificationCode();
         var dashboardPage = verificationPage.validVerify(verificationCode);
 
-        String firstCardNumber = "**** **** **** 0001";
-        String secondCardNumber = "**** **** **** 0002";
+        String firstCardNumber = DataHelper.getFirstCardMaskedNumber();
+        String secondCardNumber = DataHelper.getSecondCardMaskedNumber();
 
         int firstCardBalance = dashboardPage.getCardBalance(firstCardNumber);
         int secondCardBalance = dashboardPage.getCardBalance(secondCardNumber);
 
         int amount = 5000;
         var secondCardInfo = DataHelper.getSecondCardInfo();
+
         var transferPage = dashboardPage.selectCardToTransfer(firstCardNumber);
         dashboardPage = transferPage.makeTransfer(String.valueOf(amount), secondCardInfo);
 
-        // Проверяем актуальный баланс по полным номерам
         int expectedBalanceFirstCard = firstCardBalance + amount;
         int expectedBalanceSecondCard = secondCardBalance - amount;
 
